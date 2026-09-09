@@ -1,0 +1,45 @@
+.floating-bubbles-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.neon-bubble {
+  position: absolute;
+  bottom: -30px;
+  border-radius: 50%;
+  opacity: 0.65;
+  filter: blur(1.8px);
+  animation: floatUpward linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes floatUpward {
+  0% {
+    transform: translateY(0) scale(0.7) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(-50vh) scale(1.1) translateX(18px);
+    opacity: 0.72;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-110vh) scale(0.8) translateX(-15px);
+    opacity: 0;
+  }
+}
+
+/* Reduce bubble motion for users with reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .floating-bubbles-container {
+    display: none !important;
+  }
+}
