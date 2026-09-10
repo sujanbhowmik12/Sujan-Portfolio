@@ -98,6 +98,15 @@ const Navbar = ({ theme, toggleTheme }) => {
         </div>
       </div>
 
+      {/* Mobile Drawer Backdrop */}
+      {mobileMenuOpen && (
+        <div
+          className="mobile-backdrop"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Mobile Drawer */}
       <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}>
         <nav className="mobile-nav">

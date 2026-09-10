@@ -211,3 +211,43 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 640px) {
+  .dashboard-topbar {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .topbar-tags {
+    gap: 0.35rem;
+  }
+  .tag-pill {
+    font-size: 0.725rem;
+    padding: 0.2rem 0.55rem;
+  }
+  .dashboard-grid {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .dash-widget {
+    padding: 1rem;
+  }
+  .pipeline-steps {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+    justify-content: flex-start;
+  }
+  .step-box {
+    min-width: 72px;
+    padding: 0.5rem 0.4rem;
+  }
+  .step-name {
+    font-size: 0.7rem;
+  }
+  .dashboard-footer-note {
+    padding: 0.85rem 1rem;
+    font-size: 0.825rem;
+  }
+}

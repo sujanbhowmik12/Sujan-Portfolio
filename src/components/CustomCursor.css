@@ -49,8 +49,8 @@
   border-color: var(--accent-pink);
 }
 
-/* Disable custom cursor on touch screens */
-@media (hover: none) and (pointer: coarse) {
+/* Disable custom cursor on touch screens and mobile screens */
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
   .cursor-dot, .cursor-ring {
     display: none !important;
   }

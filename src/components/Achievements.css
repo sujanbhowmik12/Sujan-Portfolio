@@ -57,3 +57,18 @@
   border-radius: var(--radius-sm);
   width: fit-content;
 }
+
+@media (max-width: 640px) {
+  .achievements-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .achievement-card {
+    padding: 1.25rem 1rem;
+  }
+  .achievement-icon-box {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 1rem;
+  }
+}

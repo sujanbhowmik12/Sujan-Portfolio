@@ -136,3 +136,31 @@
     gap: 2rem;
   }
 }
+
+@media (max-width: 640px) {
+  .footer {
+    padding: 3rem 0 1.5rem 0;
+  }
+  .footer-container {
+    gap: 2rem;
+  }
+  .footer-top {
+    gap: 1.75rem;
+    text-align: center;
+  }
+  .footer-brand {
+    align-items: center;
+  }
+  .footer-tagline {
+    max-width: 100%;
+  }
+  .footer-social-icons {
+    justify-content: center;
+  }
+  .footer-bottom {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    text-align: center;
+    padding-top: 1.5rem;
+  }
+}

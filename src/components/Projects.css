@@ -165,7 +165,50 @@
 }
 
 @media (max-width: 640px) {
+  .filter-tabs-wrapper {
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    justify-content: flex-start;
+  }
+  .filter-tabs {
+    flex-wrap: nowrap;
+    width: max-content;
+    margin: 0 auto;
+    gap: 0.35rem;
+    padding: 0.3rem;
+  }
+  .filter-btn {
+    padding: 0.45rem 1rem;
+    font-size: 0.825rem;
+    white-space: nowrap;
+  }
   .projects-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .project-banner {
+    height: 140px;
+  }
+  .project-body {
+    padding: 1.25rem;
+  }
+  .project-title {
+    font-size: 1.15rem;
+  }
+  .project-desc {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin-bottom: 1.2rem;
+  }
+  .project-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .project-actions .btn {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
   }
 }
