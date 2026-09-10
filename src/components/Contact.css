@@ -170,6 +170,36 @@ a.item-value:hover {
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
+.form-group input.input-error,
+.form-group textarea.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.form-group input.input-success {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18) !important;
+}
+
+.input-feedback {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.input-feedback.error {
+  color: #ef4444;
+}
+
+.input-feedback.success {
+  color: #10b981;
+}
+
 .form-submit-btn {
   width: 100%;
   padding: 0.9rem;

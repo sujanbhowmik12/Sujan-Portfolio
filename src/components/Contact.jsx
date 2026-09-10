@@ -3,6 +3,76 @@ import { Mail, Send, Github, Linkedin, Instagram, MapPin, CheckCircle, AlertCirc
 import { personalInfo } from '../data/portfolioData';
 import './Contact.css';
 
+const FAKE_DOMAINS = [
+  'example.com', 'example.org', 'example.net',
+  'test.com', 'fake.com', 'sample.com',
+  'tempmail.com', 'mailinator.com', '10minutemail.com',
+  'throwawaymail.com', 'guerrillamail.com', 'trashmail.com',
+  'sharklasers.com', 'dispostable.com', 'fakeemail.com',
+  'asdf.com', 'qwerty.com', 'xyz.com', 'aaa.com', 'abc.com',
+  'none.com', 'noemail.com', 'invalid.com', 'null.com'
+];
+
+const validateEmail = (rawEmail) => {
+  const email = (rawEmail || '').trim().toLowerCase();
+
+  if (!email) {
+    return { isValid: false, message: 'Email address is required.' };
+  }
+
+  // Standard safe RFC 5322 regex
+  const emailRegex = /^[a-zA-Z0-9]+([._%+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(email)) {
+    if (!email.includes('@')) {
+      return { isValid: false, message: "Invalid email: Missing '@' symbol (e.g. name@gmail.com)." };
+    }
+    const parts = email.split('@');
+    if (parts.length > 2) {
+      return { isValid: false, message: "Invalid email: Cannot have multiple '@' symbols." };
+    }
+    const domain = parts[1];
+    if (!domain || !domain.includes('.')) {
+      return { isValid: false, message: 'Invalid email: Missing domain extension (e.g. .com, .in, .org).' };
+    }
+    const tld = domain.split('.').pop();
+    if (tld.length < 2) {
+      return { isValid: false, message: 'Invalid email: Domain extension is too short.' };
+    }
+    return { isValid: false, message: 'Invalid email format. Please enter a real address (e.g. name@gmail.com).' };
+  }
+
+  const [localPart, domain] = email.split('@');
+
+  // Block fake / disposable domains
+  if (FAKE_DOMAINS.includes(domain)) {
+    return { isValid: false, message: `Invalid email: '${domain}' is a placeholder/disposable domain. Please use a real email.` };
+  }
+
+  // Local part length check
+  if (localPart.length < 3) {
+    return { isValid: false, message: 'Invalid email: Username before @ is too short.' };
+  }
+
+  // Block obvious spam/placeholder usernames
+  const blockedUsernames = ['test', 'fake', 'asdf', 'qwerty', 'sample', 'testing', 'admin', 'user', '12345', 'noemail'];
+  if (blockedUsernames.includes(localPart)) {
+    return { isValid: false, message: `Invalid email: '${localPart}' is a placeholder username. Please provide a genuine email.` };
+  }
+
+  // Check if username and domain are identical (e.g. asdf@asdf.com)
+  if (localPart === domain.split('.')[0]) {
+    return { isValid: false, message: 'Invalid email: Repetitive fake address detected.' };
+  }
+
+  // Popular public mail providers minimum character rules
+  const majorProviders = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com'];
+  if (majorProviders.includes(domain) && localPart.length < 5) {
+    return { isValid: false, message: `Invalid email: Real ${domain} addresses require at least 5 characters.` };
+  }
+
+  return { isValid: true, message: 'Valid email address!' };
+};
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -11,15 +81,52 @@ const Contact = () => {
   });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === 'email') {
+      if (emailTouched) {
+        const check = validateEmail(value);
+        setEmailValid(check.isValid);
+        setEmailError(check.isValid ? '' : check.message);
+      }
+    }
+  };
+
+  const handleEmailBlur = () => {
+    setEmailTouched(true);
+    const check = validateEmail(formData.email);
+    setEmailValid(check.isValid);
+    setEmailError(check.isValid ? '' : check.message);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setStatus({ type: 'error', message: 'Please fill in all fields before sending.' });
+    setEmailTouched(true);
+
+    if (!formData.name.trim() || formData.name.trim().length < 2) {
+      setStatus({ type: 'error', message: 'Please enter your real full name.' });
+      return;
+    }
+
+    // Strict Email Validation
+    const emailCheck = validateEmail(formData.email);
+    if (!emailCheck.isValid) {
+      setEmailValid(false);
+      setEmailError(emailCheck.message);
+      setStatus({ type: 'error', message: emailCheck.message });
+      const emailInput = document.getElementById('email');
+      if (emailInput) emailInput.focus();
+      return;
+    }
+
+    if (!formData.message.trim() || formData.message.trim().length < 5) {
+      setStatus({ type: 'error', message: 'Please write a message of at least 5 characters.' });
       return;
     }
 
@@ -34,31 +141,34 @@ const Contact = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          _subject: `New Portfolio Message from ${formData.name}!`,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+          _subject: `New Portfolio Message from ${formData.name.trim()}!`,
           _template: 'table'
         })
       });
 
-      if (response.ok) {
+      const data = await response.json().catch(() => null);
+
+      if (response.ok && data && (data.success === 'true' || data.success === true || response.status === 200)) {
         setStatus({
           type: 'success',
           message: 'Thank you! Your message has been sent successfully to Sujan. I will get back to you soon.'
         });
         setFormData({ name: '', email: '', message: '' });
+        setEmailTouched(false);
+        setEmailValid(false);
+        setEmailError('');
       } else {
-        throw new Error('Submission failed');
+        throw new Error((data && data.message) || 'Submission failed');
       }
     } catch {
-      // Direct mailto fallback
+      // Direct mailto fallback with clear message
       setStatus({
-        type: 'success',
-        message: 'Thank you! Opening your email app to send the message directly to Sujan...'
+        type: 'error',
+        message: 'Could not send automatically. Please send directly via email to ytmrsujan@gmail.com or check your connection.'
       });
-      window.location.href = `mailto:ytmrsujan@gmail.com?subject=Portfolio Message from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(formData.message + '\n\nFrom: ' + formData.name + ' (' + formData.email + ')')}`;
-      setFormData({ name: '', email: '', message: '' });
     } finally {
       setIsSubmitting(false);
     }
@@ -171,8 +281,20 @@ const Contact = () => {
                   placeholder="name@example.com"
                   value={formData.email}
                   onChange={handleChange}
+                  onBlur={handleEmailBlur}
+                  className={emailTouched ? (emailValid ? 'input-success' : 'input-error') : ''}
                   required
                 />
+                {emailTouched && emailError && (
+                  <span className="input-feedback error">
+                    <AlertCircle size={14} /> {emailError}
+                  </span>
+                )}
+                {emailTouched && emailValid && (
+                  <span className="input-feedback success">
+                    <CheckCircle size={14} /> Valid email address
+                  </span>
+                )}
               </div>
 
               <div className="form-group">
