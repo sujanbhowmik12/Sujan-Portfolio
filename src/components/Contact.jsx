@@ -158,9 +158,13 @@ const Contact = () => {
           serviceId,
           templateId,
           {
+            email: formData.email.trim(),
             to_email: formData.email.trim(),
-            to_name: formData.name.trim() || 'Visitor',
+            passcode: code,
             otp_code: code,
+            time: '60 seconds',
+            to_name: formData.name.trim() || 'Visitor',
+            name: formData.name.trim() || 'Visitor',
             from_name: 'Sujan Bhowmik Portfolio',
             reply_to: 'ytmrsujan@gmail.com'
           },
