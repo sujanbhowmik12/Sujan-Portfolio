@@ -88,7 +88,6 @@ const Contact = () => {
   const [otpFeedback, setOtpFeedback] = useState({ type: '', message: '' });
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [otpTimer, setOtpTimer] = useState(0);
-  const [otpNotice, setOtpNotice] = useState('');
 
   // 60-second cooldown timer
   useEffect(() => {
@@ -112,7 +111,6 @@ const Contact = () => {
         setOtpSent(false);
         setGeneratedOtp('');
         setUserOtpInput('');
-        setOtpNotice('');
         setOtpFeedback({ type: '', message: '' });
       }
 
@@ -151,9 +149,9 @@ const Contact = () => {
     setGeneratedOtp(code);
 
     try {
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || personalInfo.emailjs?.serviceId;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || personalInfo.emailjs?.templateId;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || personalInfo.emailjs?.publicKey;
 
       if (serviceId && templateId && publicKey) {
         await emailjs.send(
@@ -162,30 +160,34 @@ const Contact = () => {
           {
             to_email: formData.email.trim(),
             to_name: formData.name.trim() || 'Visitor',
-            otp_code: code
+            otp_code: code,
+            from_name: 'Sujan Bhowmik Portfolio',
+            reply_to: 'ytmrsujan@gmail.com'
           },
           publicKey
         );
       }
-    } catch (err) {
-      console.warn('EmailJS sending fallback:', err);
-    }
 
-    setIsSendingOtp(false);
-    setOtpSent(true);
-    setOtpTimer(60);
-    setOtpNotice(
-      `Verification OTP generated for ${formData.email}. [For Instant Verification / Testing: Your OTP is ${code}]`
-    );
-    setStatus({
-      type: 'success',
-      message: `A 6-digit verification OTP has been sent to ${formData.email}. Please enter it below to verify.`
-    });
+      setIsSendingOtp(false);
+      setOtpSent(true);
+      setOtpTimer(60);
+      setStatus({
+        type: 'success',
+        message: `Verification code sent to ${formData.email}. Please check your email inbox (and Spam/Junk folder) to get your 6-digit OTP.`
+      });
+    } catch (err) {
+      console.error('Email delivery error:', err);
+      setIsSendingOtp(false);
+      setStatus({
+        type: 'error',
+        message: 'Could not send verification email. Please ensure your email is correct and active, or try again.'
+      });
+    }
   };
 
   const handleVerifyOtp = () => {
     if (!userOtpInput.trim()) {
-      setOtpFeedback({ type: 'error', message: 'Please enter the 6-digit OTP code.' });
+      setOtpFeedback({ type: 'error', message: 'Please enter the 6-digit OTP code sent to your email.' });
       return;
     }
 
@@ -203,7 +205,7 @@ const Contact = () => {
       setIsEmailVerified(false);
       setOtpFeedback({
         type: 'error',
-        message: 'Invalid OTP! The code you entered does not match. Please try again.'
+        message: 'Invalid OTP! The code you entered does not match the one sent to your email. Please check your inbox and try again.'
       });
     }
   };
@@ -213,7 +215,6 @@ const Contact = () => {
     setOtpSent(false);
     setGeneratedOtp('');
     setUserOtpInput('');
-    setOtpNotice('');
     setOtpFeedback({ type: '', message: '' });
   };
 
@@ -480,22 +481,8 @@ const Contact = () => {
                     </div>
 
                     <p className="otp-subtext">
-                      We've generated an OTP for <strong>{formData.email}</strong>. Please enter the 6-digit code below to unlock message sending.
+                      📧 A 6-digit verification code has been sent directly to <strong>{formData.email}</strong>. Please check your email inbox (and Spam/Junk folder), copy the code, and enter it below.
                     </p>
-
-                    {/* Instant verification testing helper notice */}
-                    {otpNotice && (
-                      <div className="otp-demo-card">
-                        <span>OTP Code: <strong className="otp-code-highlight">{generatedOtp}</strong></span>
-                        <button
-                          type="button"
-                          className="btn-copy-otp"
-                          onClick={() => setUserOtpInput(generatedOtp)}
-                        >
-                          Auto Fill
-                        </button>
-                      </div>
-                    )}
 
                     <div className="otp-input-group">
                       <input
