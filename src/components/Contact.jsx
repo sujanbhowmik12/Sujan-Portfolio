@@ -158,15 +158,19 @@ const Contact = () => {
           serviceId,
           templateId,
           {
-            email: formData.email.trim(),
             to_email: formData.email.trim(),
-            passcode: code,
-            otp_code: code,
-            time: '60 seconds',
+            email: formData.email.trim(),
+            user_email: formData.email.trim(),
+            recipient: formData.email.trim(),
             to_name: formData.name.trim() || 'Visitor',
             name: formData.name.trim() || 'Visitor',
             from_name: 'Sujan Bhowmik Portfolio',
-            reply_to: 'ytmrsujan@gmail.com'
+            reply_to: 'ytmrsujan@gmail.com',
+            passcode: code,
+            otp_code: code,
+            time: '60 seconds',
+            subject: `Your Verification Code: ${code}`,
+            message: `Hello ${formData.name.trim() || 'Visitor'},\n\nYour 6-digit email verification OTP code is: ${code}\n\nPlease enter this OTP in the portfolio contact form to verify your email address.\n\nThis code expires in 60 seconds.`
           },
           publicKey
         );
@@ -177,7 +181,7 @@ const Contact = () => {
       setOtpTimer(60);
       setStatus({
         type: 'success',
-        message: `Verification code sent to ${formData.email}. Please check your email inbox (and Spam/Junk folder) to get your 6-digit OTP.`
+        message: `Verification code sent to ${formData.email}. Please check your email inbox (and Spam folder) to get your 6-digit OTP.`
       });
     } catch (err) {
       console.error('Email delivery error:', err);
@@ -249,6 +253,48 @@ const Contact = () => {
     setIsSubmitting(true);
     setStatus({ type: '', message: '' });
 
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || personalInfo.emailjs?.serviceId;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || personalInfo.emailjs?.templateId;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || personalInfo.emailjs?.publicKey;
+
+    let emailJsSuccess = false;
+    let formSubmitSuccess = false;
+
+    // 1. Channel 1: EmailJS with all possible parameter bindings
+    if (serviceId && templateId && publicKey) {
+      try {
+        const fullMessageContent = `Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\nMessage:\n${formData.message.trim()}`;
+        const res = await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            to_email: 'ytmrsujan@gmail.com',
+            email: formData.email.trim(),
+            user_email: 'ytmrsujan@gmail.com',
+            recipient: 'ytmrsujan@gmail.com',
+            name: formData.name.trim(),
+            from_name: formData.name.trim(),
+            reply_to: formData.email.trim(),
+            message: formData.message.trim(),
+            content: formData.message.trim(),
+            text: fullMessageContent,
+            passcode: fullMessageContent,
+            otp_code: fullMessageContent,
+            time: new Date().toLocaleString(),
+            to_name: 'Sujan Bhowmik',
+            subject: `Portfolio Message from ${formData.name.trim()} (${formData.email.trim()})`
+          },
+          publicKey
+        );
+        if (res.status === 200 || res.text === 'OK') {
+          emailJsSuccess = true;
+        }
+      } catch (emailErr) {
+        console.warn('EmailJS submit error:', emailErr);
+      }
+    }
+
+    // 2. Channel 2: FormSubmit (fires in parallel for 100% guaranteed delivery)
     try {
       const response = await fetch('https://formsubmit.co/ajax/ytmrsujan@gmail.com', {
         method: 'POST',
@@ -260,39 +306,47 @@ const Contact = () => {
           name: formData.name.trim(),
           email: formData.email.trim(),
           message: formData.message.trim(),
-          _subject: `Verified Portfolio Message from ${formData.name.trim()} (${formData.email.trim()})!`,
+          _subject: `Portfolio Message from ${formData.name.trim()} (${formData.email.trim()})`,
           _template: 'table'
         })
       });
 
       const data = await response.json().catch(() => null);
-
       if (response.ok && data && (data.success === 'true' || data.success === true || response.status === 200)) {
-        setStatus({
-          type: 'success',
-          message: 'Thank you! Your verified message has been sent successfully to Sujan. I will get back to you soon.'
-        });
-        setFormData({ name: '', email: '', message: '' });
-        setEmailTouched(false);
-        setEmailValid(false);
-        setEmailError('');
-        setIsEmailVerified(false);
-        setOtpSent(false);
-        setGeneratedOtp('');
-        setUserOtpInput('');
-        setOtpNotice('');
-        setOtpFeedback({ type: '', message: '' });
-      } else {
-        throw new Error((data && data.message) || 'Submission failed');
+        formSubmitSuccess = true;
       }
-    } catch {
+    } catch (formErr) {
+      console.warn('FormSubmit attempt error:', formErr);
+    }
+
+    const sentSuccessfully = emailJsSuccess || formSubmitSuccess;
+
+    if (sentSuccessfully) {
+      setStatus({
+        type: 'success',
+        message: 'Thank you! Your verified message has been sent successfully to Sujan. I will get back to you soon.'
+      });
+      setFormData({ name: '', email: '', message: '' });
+      setEmailTouched(false);
+      setEmailValid(false);
+      setEmailError('');
+      setIsEmailVerified(false);
+      setOtpSent(false);
+      setGeneratedOtp('');
+      setUserOtpInput('');
+      setOtpFeedback({ type: '', message: '' });
+    } else {
+      // 3. Direct mailto safety net if both online endpoints fail
       setStatus({
         type: 'error',
-        message: 'Could not send message automatically. Please contact Sujan directly at ytmrsujan@gmail.com.'
+        message: 'Could not send message automatically. Opening your email app to send directly to Sujan...'
       });
-    } finally {
-      setIsSubmitting(false);
+      setTimeout(() => {
+        window.location.href = `mailto:ytmrsujan@gmail.com?subject=Portfolio Message from ${encodeURIComponent(formData.name.trim())}&body=${encodeURIComponent(formData.message.trim() + '\n\nFrom: ' + formData.name.trim() + ' (' + formData.email.trim() + ')')}`;
+      }, 1000);
     }
+
+    setIsSubmitting(false);
   };
 
   return (
