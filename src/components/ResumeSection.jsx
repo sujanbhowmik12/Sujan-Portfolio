@@ -24,7 +24,7 @@ const ResumeSection = () => {
             </p>
 
             <div className="resume-highlights-row">
-              <span className="cv-pill"><GraduationCap size={14} /> B.Tech CSE (9.2 CGPA)</span>
+              <span className="cv-pill"><GraduationCap size={14} /> B.Tech CSE (2nd Year | 9.2 CGPA)</span>
               <span className="cv-pill"><Award size={14} /> NASSCOM Certified</span>
               <span className="cv-pill"><CheckCircle2 size={14} /> C++, Java, SQL & DSA</span>
               <span className="cv-pill"><CheckCircle2 size={14} /> AI Agents (ZOYA)</span>

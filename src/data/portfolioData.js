@@ -38,7 +38,7 @@ export const aboutCards = [
 
 export const journeyTimeline = [
   { step: "Schooling", desc: "Foundation in Mathematics & Sciences with distinction" },
-  { step: "B.Tech CSE", desc: "Adamas University (2025–2029) | First Year (9.2/10 CGPA)" },
+  { step: "B.Tech CSE", desc: "Adamas University (2025–2029) | Second Year (9.2/10 CGPA)" },
   { step: "Programming Core", desc: "Mastering C++, Java, C, Data Structures & Algorithms, OOP" },
   { step: "Web & Software", desc: "Frontend development, responsive UIs, and interactive applications" },
   { step: "AI Agents & Projects", desc: "Building practical projects like ZOYA (AI Agent) and YTMR-LPG" },
@@ -163,7 +163,7 @@ export const experienceTimeline = [
   {
     title: "B.Tech CSE — Adamas University",
     period: "2025 — 2029",
-    tag: "First Year | CGPA: 9.2/10",
+    tag: "Second Year | CGPA: 9.2/10",
     description: "Pursuing Bachelor of Technology in Computer Science & Engineering. Maintaining a 9.2/10 academic average with strong focus on computer science theory, algorithms, and practical software engineering."
   },
   {
