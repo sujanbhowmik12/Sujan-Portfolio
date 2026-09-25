@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Send, Github, Linkedin, Instagram, MapPin, CheckCircle, AlertCircle, ShieldCheck, KeyRound, Clock, RefreshCw, CheckCircle2, Lock } from 'lucide-react';
+import { Mail, Phone, Send, Github, Linkedin, Instagram, MapPin, CheckCircle, AlertCircle, ShieldCheck, KeyRound, Clock, RefreshCw, CheckCircle2, Lock } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { personalInfo } from '../data/portfolioData';
 import './Contact.css';
@@ -381,6 +381,18 @@ const Contact = () => {
                   </a>
                 </div>
               </div>
+
+              {personalInfo.phone && (
+                <div className="contact-item">
+                  <div className="item-icon"><Phone size={20} /></div>
+                  <div className="item-meta">
+                    <span className="item-label">Phone</span>
+                    <a href={`tel:${personalInfo.phone}`} className="item-value">
+                      {personalInfo.phone}
+                    </a>
+                  </div>
+                </div>
+              )}
 
               <div className="contact-item">
                 <div className="item-icon"><MapPin size={20} /></div>

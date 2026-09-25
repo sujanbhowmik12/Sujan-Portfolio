@@ -40,6 +40,22 @@
   flex: 1;
 }
 
+.resume-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: var(--accent-primary, #6366f1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
 .resume-heading {
   font-size: 1.8rem;
   font-weight: 800;
@@ -51,6 +67,27 @@
   font-size: 1.05rem;
   color: var(--text-secondary);
   line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.resume-highlights-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.cv-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-sm, 8px);
+  font-size: 0.825rem;
+  color: var(--text-primary);
+  font-weight: 500;
 }
 
 .resume-actions {

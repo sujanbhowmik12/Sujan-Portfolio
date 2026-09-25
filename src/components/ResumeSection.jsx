@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, Eye, Download, X, ExternalLink } from 'lucide-react';
+import { FileText, Eye, Download, X, ExternalLink, GraduationCap, Award, Sparkles, CheckCircle2 } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import './ResumeSection.css';
 
@@ -11,42 +11,64 @@ const ResumeSection = () => {
       <div className="container">
         <div className="resume-card glass-card">
           <div className="resume-icon-badge">
-            <FileText size={32} />
+            <FileText size={34} />
           </div>
 
           <div className="resume-content">
-            <h2 className="resume-heading">Want to know more about me?</h2>
+            <div className="resume-tag-pill">
+              <Sparkles size={14} /> Curriculum Vitae (CV) & Resume
+            </div>
+            <h2 className="resume-heading">Looking for My Full Professional CV?</h2>
             <p className="resume-text">
-              Take a look at my resume to learn about my education, skills, projects and experience in detail.
+              View or download my verified CV featuring my academic standing at Adamas University (9.2 CGPA), core technical skills in C++, Java, SQL, AI Agents, and hands-on projects.
             </p>
+
+            <div className="resume-highlights-row">
+              <span className="cv-pill"><GraduationCap size={14} /> B.Tech CSE (9.2 CGPA)</span>
+              <span className="cv-pill"><Award size={14} /> NASSCOM Certified</span>
+              <span className="cv-pill"><CheckCircle2 size={14} /> C++, Java, SQL & DSA</span>
+              <span className="cv-pill"><CheckCircle2 size={14} /> AI Agents (ZOYA)</span>
+            </div>
           </div>
 
           <div className="resume-actions">
             <button
               className="btn btn-secondary"
               onClick={() => setIsPreviewOpen(true)}
+              title="Preview CV directly on this page"
             >
-              <Eye size={18} /> View Resume
+              <Eye size={18} /> View CV
             </button>
 
             <a
               href={personalInfo.resumeUrl}
-              download="Sujan-Bhowmik-Resume.pdf"
-              className="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary"
+              title="Open CV in a new tab"
             >
-              <Download size={18} /> Download Resume
+              <ExternalLink size={18} /> Open Tab
+            </a>
+
+            <a
+              href={personalInfo.resumeUrl}
+              download="Sujan_Bhowmik_CV.pdf"
+              className="btn btn-primary"
+              title="Download CV PDF"
+            >
+              <Download size={18} /> Download CV
             </a>
           </div>
         </div>
       </div>
 
-      {/* Resume Viewer Modal */}
+      {/* Resume / CV Viewer Modal */}
       {isPreviewOpen && (
         <div className="resume-modal-overlay" onClick={() => setIsPreviewOpen(false)}>
           <div className="resume-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <div className="modal-title">
-                <FileText size={18} /> Sujan Bhowmik - Resume Preview
+                <FileText size={18} /> Sujan Bhowmik — Professional CV Preview
               </div>
               <div className="modal-actions">
                 <a
@@ -57,6 +79,14 @@ const ResumeSection = () => {
                   title="Open in new tab"
                 >
                   <ExternalLink size={18} />
+                </a>
+                <a
+                  href={personalInfo.resumeUrl}
+                  download="Sujan_Bhowmik_CV.pdf"
+                  className="modal-icon-btn"
+                  title="Download PDF"
+                >
+                  <Download size={18} />
                 </a>
                 <button
                   className="modal-icon-btn"
@@ -70,11 +100,11 @@ const ResumeSection = () => {
 
             <div className="modal-body">
               <iframe
-                src={personalInfo.resumeUrl}
-                title="Sujan Bhowmik Resume"
+                src={`${personalInfo.resumeUrl}#view=FitH`}
+                title="Sujan Bhowmik CV"
                 className="resume-iframe"
               >
-                <p>Your browser does not support PDF viewing. <a href={personalInfo.resumeUrl} target="_blank" rel="noreferrer">Click here to open the PDF</a>.</p>
+                <p>Your browser does not support inline PDF viewing. <a href={personalInfo.resumeUrl} target="_blank" rel="noreferrer">Click here to open the PDF</a>.</p>
               </iframe>
             </div>
           </div>

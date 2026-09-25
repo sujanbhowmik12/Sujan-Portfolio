@@ -32,7 +32,7 @@ const About = () => {
             </div>
             <div className="photo-card-info">
               <h3 className="photo-name">Sujan Bhowmik</h3>
-              <p className="photo-tagline">B.Tech CSE Student & Aspiring Data Scientist</p>
+              <p className="photo-tagline">{personalInfo.title}</p>
             </div>
           </div>
 
@@ -46,22 +46,22 @@ const About = () => {
               <div className="univ-icon"><GraduationCap size={24} /></div>
               <div className="univ-details">
                 <span className="univ-name">{personalInfo.university}</span>
-                <span className="univ-degree">{personalInfo.degree} ({personalInfo.year})</span>
+                <span className="univ-degree">{personalInfo.degree} ({personalInfo.year}) — CGPA: {personalInfo.cgpa}</span>
               </div>
             </div>
 
             <div className="key-points-list">
               <div className="key-point">
                 <CheckCircle2 size={18} className="point-icon" />
-                <span>Focusing on Python, Data Science, and Machine Learning</span>
+                <span>Strong foundation in C++, Java, C, SQL, DSA & OOP</span>
               </div>
               <div className="key-point">
                 <CheckCircle2 size={18} className="point-icon" />
-                <span>Hands-on Web Application & AI Project Development</span>
+                <span>Building AI Agents (ZOYA) and practical web platforms (YTMR-LPG)</span>
               </div>
               <div className="key-point">
                 <CheckCircle2 size={18} className="point-icon" />
-                <span>Strong foundation in Computer Science Fundamentals</span>
+                <span>Top Academic Standing (9.2/10 first-year average) & NASSCOM Certified</span>
               </div>
             </div>
           </div>

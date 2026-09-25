@@ -33,8 +33,8 @@ const Hero = () => {
             <a href="#projects" className="btn btn-primary hero-btn">
               View My Projects <ArrowRight size={18} />
             </a>
-            <a href={personalInfo.resumeUrl} download="Sujan_Bhowmik_Resume.pdf" className="btn btn-secondary hero-btn">
-              <Download size={18} /> Download Resume
+            <a href={personalInfo.resumeUrl} download="Sujan_Bhowmik_CV.pdf" className="btn btn-secondary hero-btn">
+              <Download size={18} /> Download CV
             </a>
           </div>
 
