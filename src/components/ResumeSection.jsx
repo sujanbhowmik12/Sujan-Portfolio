@@ -41,7 +41,7 @@ const ResumeSection = () => {
             </button>
 
             <a
-              href={personalInfo.resumeUrl}
+              href={`${personalInfo.resumeUrl}?view=1`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-secondary"
@@ -72,7 +72,7 @@ const ResumeSection = () => {
               </div>
               <div className="modal-actions">
                 <a
-                  href={personalInfo.resumeUrl}
+                  href={`${personalInfo.resumeUrl}?view=1`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="modal-icon-btn"
@@ -100,11 +100,11 @@ const ResumeSection = () => {
 
             <div className="modal-body">
               <iframe
-                src={`${personalInfo.resumeUrl}#view=FitH`}
+                src={`${personalInfo.resumeUrl}?view=1#view=FitH`}
                 title="Sujan Bhowmik CV"
                 className="resume-iframe"
               >
-                <p>Your browser does not support inline PDF viewing. <a href={personalInfo.resumeUrl} target="_blank" rel="noreferrer">Click here to open the PDF</a>.</p>
+                <p>Your browser does not support inline PDF viewing. <a href={`${personalInfo.resumeUrl}?view=1`} target="_blank" rel="noreferrer">Click here to open the PDF</a>.</p>
               </iframe>
             </div>
           </div>

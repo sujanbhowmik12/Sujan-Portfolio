@@ -25,7 +25,7 @@ export const personalInfo = {
     publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "U4tCNPo7WCPeru7IT"
   },
   
-  resumeUrl: "/resume/Sujan-Bhowmik-Resume.pdf"
+  resumeUrl: "/resume/Sujan_Bhowmik_Full_CV.pdf"
 };
 
 export const aboutCards = [
