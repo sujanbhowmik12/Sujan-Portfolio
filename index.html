@@ -11,16 +11,68 @@
     <meta name="google-site-verification" content="p4zOQrYvjGWgEysP4kFNExRw8--zI65_ulwaKjZSpWo" />
     
     <!-- SEO Meta Tags -->
-    <title>Sujan Bhowmik | Aspiring Data Scientist & Developer</title>
-    <meta name="description" content="B.Tech CSE student at Adamas University and aspiring Data Scientist passionate about Data Science, Machine Learning, AI and building useful real-world applications." />
+    <title>Sujan | Portfolio — Sujan Bhowmik</title>
+    <meta name="description" content="Sujan Bhowmik — Computer Science & Engineering Undergraduate at Adamas University. Passionate about Software Development, AI Agents, C++, Java, and Data Structures & Algorithms." />
     <meta name="author" content="Sujan Bhowmik" />
-    <meta name="keywords" content="Sujan Bhowmik, Data Scientist, Computer Science, Machine Learning, Artificial Intelligence, Portfolio, Adamas University, Python, Web Development" />
-    
+    <meta name="keywords" content="Sujan, Sujan Bhowmik, Sujan Portfolio, Software Developer, AI Agents, Computer Science, Adamas University, C++, Java, Web Development" />
+    <meta name="application-name" content="Sujan" />
+    <meta name="apple-mobile-web-app-title" content="Sujan" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://github.com/sujanbhowmik12" />
-    <meta property="og:title" content="Sujan Bhowmik | Aspiring Data Scientist & Developer" />
-    <meta property="og:description" content="B.Tech CSE student & Aspiring Data Scientist passionate about AI, ML, Data Science, and Software Development." />
+    <meta property="og:site_name" content="Sujan" />
+    <meta property="og:title" content="Sujan | Portfolio — Sujan Bhowmik" />
+    <meta property="og:description" content="Sujan Bhowmik — Computer Science & Engineering Undergraduate at Adamas University | Software Developer & AI Systems." />
+    <meta property="og:image" content="/logo.png" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Sujan | Portfolio" />
+    <meta name="twitter:description" content="Sujan Bhowmik — Computer Science & Engineering Undergraduate | Software Developer & AI Systems." />
+    <meta name="twitter:image" content="/logo.png" />
+
+    <!-- Google Search Site Name & Entity Structured Data -->
+    <script type="application/ld+json" id="schema-website">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "Sujan",
+          "alternateName": ["<Sujan./>", "Sujan Bhowmik", "Sujan Portfolio", "Sujan."],
+          "url": "https://sujan-portfolio.vercel.app/"
+        },
+        {
+          "@type": "Person",
+          "name": "Sujan Bhowmik",
+          "alternateName": ["Sujan", "<Sujan./>"],
+          "jobTitle": "Software Developer & AI Systems",
+          "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "Adamas University"
+          },
+          "sameAs": [
+            "https://github.com/sujanbhowmik12",
+            "https://www.linkedin.com/in/sujan-bhowmik-5b195337"
+          ]
+        }
+      ]
+    }
+    </script>
+    <script>
+      // Automatically keep schema URL synchronized with the active deployment domain
+      try {
+        if (window.location.origin && window.location.origin.startsWith('http')) {
+          var schemaEl = document.getElementById('schema-website');
+          if (schemaEl) {
+            var data = JSON.parse(schemaEl.textContent);
+            data['@graph'][0].url = window.location.origin + '/';
+            if (data['@graph'][1]) data['@graph'][1].url = window.location.origin + '/';
+            schemaEl.textContent = JSON.stringify(data);
+          }
+        }
+      } catch (e) {}
+    </script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
