@@ -61,7 +61,7 @@ const About = () => {
               </div>
               <div className="key-point">
                 <CheckCircle2 size={18} className="point-icon" />
-                <span>Top Academic Standing (9.2/10 first-year average) & NASSCOM Certified</span>
+                <span>Top Academic Standing (9.2/10 first-year average) & Oracle & NASSCOM Certified</span>
               </div>
             </div>
           </div>

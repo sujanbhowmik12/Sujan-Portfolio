@@ -225,6 +225,24 @@ export const achievements = [
 
 export const certifications = [
   {
+    id: "oracle-ai-database-foundations",
+    name: "Oracle AI Database Certified Foundations Associate",
+    issuer: "Oracle University (Oracle Corporation)",
+    date: "October 29, 2026",
+    validUntil: "October 29, 2028",
+    credentialId: "103570406OCI26DCFA",
+    credentialUrl: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=a8dc17fe334b5069b49d98eccc87651b4ab4a5aa01c5baec6f736c4a9ca2fc93",
+    verificationUrl: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=a8dc17fe334b5069b49d98eccc87651b4ab4a5aa01c5baec6f736c4a9ca2fc93",
+    imageUrl: "/certificates/oracle-ai-database.png",
+    pdfUrl: "/certificates/Sujan_Bhowmik_Oracle_AI_Database_Certificate.pdf",
+    downloadName: "Sujan_Bhowmik_Oracle_AI_Database_Certificate.pdf",
+    badge: "Oracle Certified Associate",
+    grade: "Foundations Associate",
+    skills: ["Oracle AI Database", "Artificial Intelligence", "Vector Search", "Database Management", "OCI"],
+    isVerified: true,
+    isPlaceholder: false
+  },
+  {
     id: "genai-tools-nasscom",
     name: "Gen AI Tools",
     issuer: "FutureSkills Prime (NASSCOM & MeitY, Govt. of India)",
@@ -232,14 +250,15 @@ export const certifications = [
     credentialId: "FSP/2026/8/10365111",
     imageUrl: "/certificates/genai-tools.png",
     pdfUrl: "/certificates/Sujan_Bhowmik_Gen_AI_Tools_Certificate.pdf",
-    badge: "🥇 Gold Certified (70%+ Score)",
+    downloadName: "Sujan_Bhowmik_Gen_AI_Tools_Certificate.pdf",
+    badge: "Gold Certified (70%+)",
     grade: "Gold Tier Assessment",
     skills: ["Gen AI Tools", "Artificial Intelligence", "NASSCOM Standards"],
     isVerified: true,
     isPlaceholder: false
   },
   {
-    id: "cert-2",
+    id: "cert-3",
     name: "Data Science & ML Specialization",
     issuer: "Target Credential",
     date: "In Progress",

@@ -132,6 +132,13 @@
   font-weight: 500;
 }
 
+.cert-id-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .cert-credential-id {
   font-size: 0.78rem;
   font-family: var(--font-code);
@@ -142,9 +149,43 @@
   width: fit-content;
 }
 
+.cert-verify-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.cert-verify-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.cert-footer-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
 .cert-date {
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+.cert-validity {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.modal-validity {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: normal;
 }
 
 .cert-skills-tags {
@@ -169,12 +210,26 @@
   margin-top: auto;
 }
 
+.cert-card-btns {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
 .cert-btn {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+}
+
+.cert-btn-icon {
+  padding: 0.5rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 /* Modal Lightbox Styles */

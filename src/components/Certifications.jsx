@@ -28,7 +28,7 @@ const Certifications = () => {
             >
               {cert.isVerified ? (
                 <div className="cert-badge-top gold-badge">
-                  <ShieldCheck size={14} /> Verified Gold
+                  <ShieldCheck size={14} /> {cert.badge || "Verified"}
                 </div>
               ) : (
                 <div className="cert-badge-top pending-badge">
@@ -54,13 +54,30 @@ const Certifications = () => {
                 <p className="cert-issuer">{cert.issuer}</p>
 
                 {cert.credentialId && (
-                  <div className="cert-credential-id">
-                    <span>ID: {cert.credentialId}</span>
+                  <div className="cert-id-wrapper">
+                    <div className="cert-credential-id">
+                      <span>ID: {cert.credentialId}</span>
+                    </div>
+                    {cert.credentialUrl && cert.credentialUrl !== '#' && (
+                      <a
+                        href={cert.credentialUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cert-verify-link"
+                        title="Verify credential on issuer portal"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink size={12} /> Verify
+                      </a>
+                    )}
                   </div>
                 )}
 
                 <div className="cert-footer-meta">
                   <span className="cert-date">{cert.date}</span>
+                  {cert.validUntil && (
+                    <span className="cert-validity">• Valid until {cert.validUntil}</span>
+                  )}
                 </div>
 
                 {cert.skills && (
@@ -74,13 +91,27 @@ const Certifications = () => {
 
               <div className="cert-action">
                 {cert.imageUrl ? (
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-sm cert-btn"
-                    onClick={() => setSelectedCert(cert)}
-                  >
-                    <FileCheck size={16} /> View Certificate
-                  </button>
+                  <div className="cert-card-btns">
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-sm cert-btn"
+                      onClick={() => setSelectedCert(cert)}
+                    >
+                      <FileCheck size={16} /> View Certificate
+                    </button>
+                    {cert.credentialUrl && cert.credentialUrl !== '#' && (
+                      <a
+                        href={cert.credentialUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-secondary btn-sm cert-btn-icon"
+                        title="Verify online"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink size={15} />
+                      </a>
+                    )}
+                  </div>
                 ) : (
                   <button className="btn btn-outline btn-sm cert-btn" disabled>
                     <Clock size={15} /> Upcoming
@@ -117,12 +148,28 @@ const Certifications = () => {
             <div className="cert-modal-footer">
               <div className="modal-cred-id">
                 <CheckCircle2 size={16} className="text-success" />
-                <span>Credential ID: <strong>{selectedCert.credentialId}</strong></span>
+                <span>
+                  Credential ID: <strong>{selectedCert.credentialId}</strong>
+                  {selectedCert.validUntil && (
+                    <span className="modal-validity"> (Valid until {selectedCert.validUntil})</span>
+                  )}
+                </span>
               </div>
               <div className="modal-actions">
+                {selectedCert.credentialUrl && selectedCert.credentialUrl !== '#' && (
+                  <a
+                    href={selectedCert.credentialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary btn-sm"
+                    title="Verify on official issuer portal"
+                  >
+                    <ExternalLink size={16} /> Verify Online
+                  </a>
+                )}
                 <a
                   href={selectedCert.pdfUrl}
-                  download="Sujan_Bhowmik_Gen_AI_Tools_Certificate.pdf"
+                  download={selectedCert.downloadName || `${selectedCert.name.replace(/\s+/g, '_')}_Certificate.pdf`}
                   className="btn btn-primary btn-sm"
                   title="Download Certificate in PDF mode"
                 >
