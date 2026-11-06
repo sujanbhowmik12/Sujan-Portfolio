@@ -260,6 +260,8 @@ const Contact = () => {
     let emailJsSuccess = false;
     let formSubmitSuccess = false;
 
+    const autoReplyMessage = `Hello ${formData.name.trim()},\n\nThank you for reaching out through my portfolio website!\n\nThis is an automated confirmation that your message has been received safely.\n\nPlease wait for the owner's reply — Sujan Bhowmik will personally review your note and respond back to your email directly as soon as possible.\n\nWarm regards,\nSujan Bhowmik\nB.Tech CSE | Software Developer\nPortfolio: https://sujan-portfolio.vercel.app`;
+
     // 1. Channel 1: EmailJS with all possible parameter bindings
     if (serviceId && templateId && publicKey) {
       try {
@@ -289,12 +291,40 @@ const Contact = () => {
         if (res.status === 200 || res.text === 'OK') {
           emailJsSuccess = true;
         }
+
+        // Automatic reply sent directly to the visitor's email address
+        try {
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              to_email: formData.email.trim(),
+              email: formData.email.trim(),
+              user_email: formData.email.trim(),
+              recipient: formData.email.trim(),
+              name: formData.name.trim(),
+              to_name: formData.name.trim(),
+              from_name: 'Sujan Bhowmik (Portfolio Auto-Reply)',
+              reply_to: 'ytmrsujan@gmail.com',
+              subject: `Message Received — Please wait for owner's reply`,
+              message: autoReplyMessage,
+              content: autoReplyMessage,
+              text: autoReplyMessage,
+              passcode: "Thank you for reaching out. Please wait for the owner's reply.",
+              otp_code: 'Message Received',
+              time: new Date().toLocaleString()
+            },
+            publicKey
+          );
+        } catch (autoErr) {
+          console.warn('EmailJS auto-reply error:', autoErr);
+        }
       } catch (emailErr) {
         console.warn('EmailJS submit error:', emailErr);
       }
     }
 
-    // 2. Channel 2: FormSubmit (fires in parallel for 100% guaranteed delivery)
+    // 2. Channel 2: FormSubmit (fires in parallel with native _autoresponse parameter)
     try {
       const response = await fetch('https://formsubmit.co/ajax/ytmrsujan@gmail.com', {
         method: 'POST',
@@ -307,7 +337,8 @@ const Contact = () => {
           email: formData.email.trim(),
           message: formData.message.trim(),
           _subject: `Portfolio Message from ${formData.name.trim()} (${formData.email.trim()})`,
-          _template: 'table'
+          _template: 'table',
+          _autoresponse: autoReplyMessage
         })
       });
 
@@ -324,7 +355,7 @@ const Contact = () => {
     if (sentSuccessfully) {
       setStatus({
         type: 'success',
-        message: 'Thank you! Your verified message has been sent successfully to Sujan. I will get back to you soon.'
+        message: 'Thank you! Your verified message has been sent to Sujan. An automated confirmation was sent to your email — please wait for the owner’s reply.'
       });
       setFormData({ name: '', email: '', message: '' });
       setEmailTouched(false);
@@ -617,6 +648,11 @@ const Contact = () => {
                   </>
                 )}
               </button>
+
+              <div className="contact-autoreply-hint">
+                <CheckCircle2 size={14} className="autoreply-hint-icon" />
+                <span>Instant auto-reply enabled: A confirmation email will be sent to your inbox upon delivery. Please wait for the owner's direct response.</span>
+              </div>
             </form>
           </div>
         </div>
